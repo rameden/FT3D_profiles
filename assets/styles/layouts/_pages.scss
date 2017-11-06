@@ -1,0 +1,76 @@
+// Global Site Styles
+
+/* Setting main body to 100% */
+body, html {
+  height: 100%;
+  min-height: 100%;
+}
+.wrap.container {
+  min-height:100%;
+}
+
+.app-header{
+  position: relative;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  height: 55px;
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  border-bottom: 1px solid #c2cfd6;
+}
+.banner .brand {
+    display: inline-block;
+    width: 155px;
+    height: 55px;
+    margin-top: -3px;
+    margin-right: 0;
+    background-color: #fff;
+    background-image: url(../../assets/images/logo.png);
+    background-repeat: no-repeat;
+    background-position: 0;
+    background-size: 120px auto;
+}
+
+//Navigation.
+.app-nav{
+  transition: margin-left 0.25s, margin-right 0.25s, width 0.25s, flex 0.25s;
+  transition: margin-left 0.25s, margin-right 0.25s, width 0.25s, flex 0.25s, -ms-flex 0.25s;
+}
+//Sub-menu show/hide
+.sub-menu{
+  display:none;
+}
+.sidebar-hidden .app-nav {
+    margin-left: -16.66666667%;
+}
+.app-nav {
+    margin-left: -16.66666667%;
+}
+.sidebar-mobile-show .app-nav{
+  margin-left:0;
+  display:block;
+}
+.container {
+    max-width: 100%;
+}
+.visible-lg{
+  display:none;
+}
+@media (min-width: 1200px){
+
+}
+@media (min-width: 992px){
+  .app-nav {
+      margin-left: 0;
+  }
+  .visible-sm{
+    display:none;
+  }
+  .visible-lg{
+    display:inline-block;
+  }
+}
+@media (min-width: 768px){
+
+}

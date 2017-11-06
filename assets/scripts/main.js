@@ -75,3 +75,19 @@
   $(document).ready(UTIL.loadEvents);
 
 })(jQuery); // Fully reference jQuery after this point.
+
+jQuery(document).ready(function($){
+//Accordion functionality for main menu
+  $('.menu-item-has-children a').on('click', function () {
+      $(this).next('ul').slideToggle("fast").addClass('sub-menu-active');
+      $(this).parent().siblings().children().next().slideUp("fast").removeClass('sub-menu-active');
+      return false;
+  });
+  $('.sidebar-toggler').click(function(){
+    $('body').toggleClass('sidebar-hidden');
+  });
+
+  $('.mobile-sidebar-toggler').click(function(){
+    $('body').toggleClass('sidebar-mobile-show');
+  });
+});

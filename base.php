@@ -19,7 +19,17 @@ use Roots\Sage\Wrapper;
       get_template_part('templates/header');
     ?>
     <div class="wrap container" role="document">
-      <div class="content row">
+      <div class="row">
+        <div class="col-2 app-nav">
+          <nav class="nav-primary">
+            <?php
+            if (has_nav_menu('primary_navigation')) :
+              wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav flex-column']);
+            endif;
+            ?>
+          </nav>
+        </div>
+      <div class="col">
         <main class="main">
           <?php include Wrapper\template_path(); ?>
         </main><!-- /.main -->
@@ -29,6 +39,7 @@ use Roots\Sage\Wrapper;
           </aside><!-- /.sidebar -->
         <?php endif; ?>
       </div><!-- /.content -->
+    </div><!-- /.row -->
     </div><!-- /.wrap -->
     <?php
       do_action('get_footer');
