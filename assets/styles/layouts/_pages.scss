@@ -5,10 +5,13 @@ body, html {
   height: 100%;
   min-height: 100%;
 }
+.visible-lg{
+  display:none;
+}
 .wrap.container {
   min-height:100%;
+  padding-top:20px;
 }
-
 .app-header{
   position: relative;
   -ms-flex-direction: row;
@@ -30,33 +33,46 @@ body, html {
     background-repeat: no-repeat;
     background-position: 0;
     background-size: 120px auto;
+    float: left;
 }
-
+.container {
+    max-width: 100%;
+}
 //Navigation.
 .app-nav{
   transition: margin-left 0.25s, margin-right 0.25s, width 0.25s, flex 0.25s;
   transition: margin-left 0.25s, margin-right 0.25s, width 0.25s, flex 0.25s, -ms-flex 0.25s;
 }
-//Sub-menu show/hide
-.sub-menu{
-  display:none;
-}
-.sidebar-hidden .app-nav {
+.app-nav {
     margin-left: -16.66666667%;
 }
-.app-nav {
+.sidebar-hidden .app-nav {
     margin-left: -16.66666667%;
 }
 .sidebar-mobile-show .app-nav{
   margin-left:0;
   display:block;
 }
-.container {
-    max-width: 100%;
-}
-.visible-lg{
+//Sub-menu items show/hide
+.sub-menu{
   display:none;
 }
+.sidebar-toggler,
+.mobile-sidebar-toggler {
+    font-size: 1.25rem;
+    line-height: 1;
+    background: transparent;
+    border: 1px solid transparent;
+    line-height: 50px;
+}
+ .navbar-toggler,
+ .mobile-sidebar-toggler {
+    min-width: 50px;
+    padding: 0.25rem 0;
+  }
+.navbar-toggler-icon {
+    height: 23px;
+    background-image: url('data:image/svg+xml;charset=utf8,<svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"><path stroke="%23536c79" stroke-width="2.25" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/></svg>'); }
 @media (min-width: 1200px){
 
 }
