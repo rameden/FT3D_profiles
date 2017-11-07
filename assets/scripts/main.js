@@ -78,11 +78,16 @@
 
 jQuery(document).ready(function($){
 //Accordion functionality for main menu
-  $('.menu-item-has-children a').on('click', function () {
+  $('.menu-item-has-children > a').on('click', function() {
+      //e.preventDefault();
       $(this).next('ul').slideToggle("fast").addClass('sub-menu-active');
       $(this).parent().siblings().children().next().slideUp("fast").removeClass('sub-menu-active');
+
+      $(this).parent().toggleClass('app-nav-active');
+      $(this).parent().siblings().removeClass('app-nav-active');
       return false;
   });
+
   $('.sidebar-toggler').click(function(){
     $('body').toggleClass('sidebar-hidden');
   });
@@ -90,7 +95,5 @@ jQuery(document).ready(function($){
   $('.mobile-sidebar-toggler').click(function(){
     $('body').toggleClass('sidebar-mobile-show');
   });
-  $('.menu-item-has-children a').click(function(){
-    $(this).parent().toggleClass('app-nav-active');
-  });
+
 });
