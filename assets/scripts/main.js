@@ -90,4 +90,7 @@ jQuery(document).ready(function($){
   $('.mobile-sidebar-toggler').click(function(){
     $('body').toggleClass('sidebar-mobile-show');
   });
+  $('.menu-item-has-children a').click(function(){
+    $(this).parent().toggleClass('app-nav-active');
+  });
 });
