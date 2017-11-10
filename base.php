@@ -22,33 +22,53 @@ use Roots\Sage\Wrapper;
         <div class="app-nav">
           <nav class="nav-primary">
             <?php
-            $rows = get_field('menu_structure','options');
+            $categories = get_terms('category', array('hide_empty' => 0,));
+            //init variables
+            $subcategories = $categories;
+            $x = 0;
+            $y = 0;
+            $z = 0;
 
-            if($rows){
-              $x = 0;
-              $y = 0;
-            	echo '<ul id="filters" class="nav flex-column">';
-            	foreach($rows as $row){
-                $x++;
-                $type = $row['navigation_type'];
-                $label = $row['navigation_label'];
-
-                echo '<li id="menu-item-'.$x.'" class="';
-                if($type == "header"){
-                  $y++;
-                  echo 'nav-header nav-header-'.$y.' ';
-                }
-                echo 'menu-item menu-item-type-custom menu-item-object-custom menu-item-'.$x.'">';
-
-                if($type == "link"){
-                  echo '<a class="'.$type.'-'.$label.'" href="" data-filter=".'.$label.'">'.$label.'</a>';
-                }else{
-                  echo '<span>'.$label.'</span>';
-                }
-                echo '</li>';
-            	}
-            	echo '</ul>';
-            }
+            echo '<ul id="filters" class="nav flex-column">';
+              echo '<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-0"><a class="" href="" data-filter="*">Show All</a></li>';
+                foreach($categories as $category){
+                  $x++;
+                  // Only top level terms
+                  if (0 != $category->parent){
+                    continue;
+                  }
+                  // It is first level, display it
+                  echo '<li id="menu-item-'.$x.'"><span class="nav-header">' . $category->name.'</span';
+                  echo '<ul>';
+                    $subsubcategories = $subcategories;
+                    foreach($subcategories as $subcategory){
+                    $y++;
+                    // Only child terms
+                    if ($category->term_id != $subcategory->parent){
+                      continue;
+                    }
+                    echo '<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-'.$x.'"><a class="" href="" data-filter=".'.$subcategory->slug.'">'.$subcategory->name.'</a>';
+                      $children = get_terms( $subcategory->taxonomy, array(
+                      'parent'    => $subcategory->term_id,
+                      'hide_empty' => false) );
+                      if($children) {
+                        echo '<ul class="nav-children">';
+                        foreach($subsubcategories as $subsubcategory){
+                          $z++;
+                          // Only child terms
+                          if ($subcategory->term_id != $subsubcategory->parent){
+                            continue;
+                          }
+                          echo '<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-'.$z.'"><a class="" href="" data-filter=".'.$subsubcategory->slug.'">'.$subsubcategory->name.'</a></li>';
+                          }
+                        echo '</ul>';
+                      }
+                      echo '</li>';
+                    }
+                    echo '</li>';
+                  echo '</ul>';
+              }
+            echo '</ul>';
             ?>
           </nav>
         </div>
@@ -66,8 +86,9 @@ use Roots\Sage\Wrapper;
             $posts = get_posts( $args );
             foreach($posts as $post){
               //Variables
-              $manufacturer = get_field('manufacturer');
-              $type = get_field('type');
+              $categories = get_the_category($post->ID);;
+              global $manufacturer;
+              global $type;
               $hotendTemp = get_field('hotend_temp');
               $bedTemp = get_field('bed_temp');
               $fan = get_field('fan');
@@ -75,21 +96,31 @@ use Roots\Sage\Wrapper;
               $slicer = get_field('slicer');
               $color = get_field('color');
 
-              echo '<div class="filament-item '.$type.' '.$manufacturer.'">';
+              foreach($categories as $category){
+                if($category->parent == 41){
+                  $typeName = $category->name;
+                  $typeSlug = $category->slug;
+                }
+                if($category->parent == 3){
+                  $manufacturer = $category->name;
+                }
+              }
+
+              echo '<div class="filament-item '.$typeSlug.' '.$manufacturer.'">';
                 echo '<div class="card">';
                   echo '<div class="card-header">';
                     echo $manufacturer;
-                    echo '<span class="badge badge-success float-right">'.$type.'</span>';
+                    echo '<span class="badge badge-success float-right badge-'.$typeSlug.'">'.$typeName.'</span>';
+                  echo '</div>';
                     echo '<div class="card-body">';
-                      echo '<p>Hotend Temp: '.$hotendTemp.'</p>';
-                      echo '<p>Bed Temp: '.$bedTemp.'</p>';
-                      echo '<p>Fan (On/Off): '.$fan.'</p>';
-                      echo '<p>Speed: '.$speed.'</p>';
-                      echo '<p>Slicer: '.$slicer.'</p>';
-                      echo '<p>Color: '.$color.'</p>';
+                      echo '<p><span class="semi-bold">Hotend Temp: </span>'.$hotendTemp.'&#8451;</p>';
+                      echo '<p><span class="semi-bold">Bed Temp: </span>'.$bedTemp.'&#8451;</p>';
+                      echo '<p><span class="semi-bold">Fan (On/Off): </span>'.$fan.'</p>';
+                      echo '<p><span class="semi-bold">Speed: </span>'.$speed.' mm/s</p>';
+                      echo '<p><span class="semi-bold">Slicer: </span>'.$slicer.'</p>';
+                      echo '<p><span class="semi-bold">Color: </span>'.$color.'</p>';
                     echo '</div>';
                   echo '</div>';
-                echo '</div>';
               echo '</div>';
             }
             ?>
